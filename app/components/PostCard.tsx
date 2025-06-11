@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 interface PostCardProps {
+  // user: any;
   walletAddress: string;
   timestamp: string;
   content: string;
@@ -16,7 +17,7 @@ interface PostCardProps {
 }
 
 export default function PostCard({
-  walletAddress,
+  // user,
   timestamp,
   content,
   likeCount,
@@ -37,11 +38,24 @@ export default function PostCard({
 
   const cardContent = (
     <div className="bg-white p-4 rounded-lg shadow mb-4">
-      <div className="text-sm text-gray-600 mb-1">
-        <span className="font-medium">{walletAddress}</span> •{" "}
-        {new Date(timestamp).toLocaleString()}
-      </div>
+      {/* <div className="flex items-center mb-2">
+        <img
+          src={user.profile_picture_url || "https://i.pravatar.cc/150?img=65"}
+          alt="Profile"
+          className="w-10 h-10 rounded-full mr-3"
+        />
+        <div className="text-sm text-gray-600">
+          <div className="font-medium text-gray-800">{user.username}</div>
+          <div className="text-xs text-gray-500">
+            {user.wallet_address.slice(0, 6)}...
+            {user.wallet_address.slice(-4)} •{" "}
+            {new Date(timestamp).toLocaleString()}
+          </div>
+        </div>
+      </div> */}
+
       <p className="text-gray-800 mb-2">{content}</p>
+
       <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
         <button onClick={onLike} className="hover:text-blue-500">
           ❤️ {likeCount}

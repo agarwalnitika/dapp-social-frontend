@@ -15,7 +15,7 @@ export default function SignIn() {
   const handleSignIn = async () => {
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
-    const message = "Login to DecentraTweet";
+    const message = "Login to ";
 
     try {
       const sig = await signer.signMessage(message);

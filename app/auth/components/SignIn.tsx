@@ -18,7 +18,7 @@ export default function SignIn() {
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
 
-    const message = "Login to DecentraTweet";
+    const message = "Login to d";
     const signature = await signer.signMessage(message);
     setSignature(signature);
 
