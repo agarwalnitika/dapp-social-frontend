@@ -19,7 +19,7 @@ export default function CommentList({ comments }: { comments: Comment[] }) {
       {comments.map((comment) => (
         <div
           key={comment.id}
-          className="border rounded-md p-2 text-sm bg-gray-50 shadow-sm"
+          className="border rounded-md p-2 text-sm shadow-sm"
         >
           <p className="font-semibold">{comment.wallet_address}</p>
           <p className="text-gray-700">{comment.content}</p>

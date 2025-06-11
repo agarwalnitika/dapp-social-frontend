@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import PostCard from "@/app/components/PostCard";
 import CommentList from "@/app/components/CommentsList";
 import { handleComment, handleLike } from "@/app/feed/components/FeedComponent";
+import { API_BASE_URL } from "@/app/helpers/config";
 
 interface Post {
   id: number;
@@ -31,7 +32,7 @@ export default function PostDetailsComponent() {
   const fetchPostDetails = async () => {
     try {
       const [postRes] = await Promise.all([
-        fetch(`http://localhost:3001/posts/${id}`),
+        fetch(`${API_BASE_URL}/posts/${id}`),
       ]);
 
       const postData = await postRes.json();

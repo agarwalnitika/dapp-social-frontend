@@ -3,19 +3,19 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDisconnect } from "wagmi";
-import { removeToken, isLoggedIn } from "../auth/utils/token";
+import { removeToken, isLoggedIn } from "../helpers/token";
 import ProfileCard from "./ProfileCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { useUser } from "../providers/UserContext";
 
 export default function Sidebar() {
   const router = useRouter();
+  const { logout } = useUser();
   const { disconnect } = useDisconnect();
 
   const handleLogout = () => {
-    removeToken();
-    disconnect();
-    router.push("/login");
+    logout();
   };
 
   if (!isLoggedIn()) return null;

@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useSignMessage } from "wagmi";
 import { useRouter } from "next/navigation";
+import WalletConnectButton from "@/app/components/buttons/WalletButton";
+import Spinner from "@/app/components/Spinner";
+import { API_BASE_URL } from "@/app/helpers/config";
 
 export default function LoginPageComponent() {
   const { address, isConnected } = useAccount();
@@ -19,8 +22,9 @@ export default function LoginPageComponent() {
       try {
         const message = "Login to Tweetlet";
         const signature = await signMessageAsync({ message });
+        setLoading(true);
 
-        const res = await fetch("http://localhost:3001/auth/verify", {
+        const res = await fetch(`${API_BASE_URL}/auth/verify`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ address, signature }),
@@ -46,10 +50,15 @@ export default function LoginPageComponent() {
   }, [address, isConnected]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold mb-6">Login to 🐦 Tweetlet</h1>
-      <ConnectButton />
-      {loading && <p className="mt-4 text-gray-600">Logging in...</p>}
+    <div className="bg-gray-900 flex flex-col items-center justify-center h-screen">
+      <h1 className="text-3xl font-bold mb-6">Welcome to 🐦 Tweetlet</h1>
+      {/* <ConnectButton /> */}
+      <WalletConnectButton />
+      {loading && (
+        <div className="mt-2">
+          <Spinner size={20} />
+        </div>
+      )}
     </div>
   );
 }

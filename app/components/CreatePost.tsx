@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import CustomOutlineButton from "./buttons/CustomButton";
+import { useAccount } from "wagmi";
+import { API_BASE_URL } from "../helpers/config";
 
 export default function CreatePostForm({
   onPostCreated,
@@ -8,8 +11,9 @@ export default function CreatePostForm({
   onPostCreated: () => void;
 }) {
   const [content, setContent] = useState("");
-  const [walletAddress] = useState("0x123"); // replace or auto-fetch if needed
+  const { address: walletAddress } = useAccount();
   const [loading, setLoading] = useState(false);
+  const MAX_CHAR = 280;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +21,7 @@ export default function CreatePostForm({
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3001/posts", {
+      const res = await fetch(`${API_BASE_URL}/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +43,7 @@ export default function CreatePostForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-6 p-4 border rounded-lg shadow-sm bg-white"
+      className="mb-6 p-4 border rounded-lg shadow-sm"
     >
       <textarea
         className="w-full p-2 border rounded-md resize-none"
@@ -47,15 +51,26 @@ export default function CreatePostForm({
         value={content}
         onChange={(e) => setContent(e.target.value)}
         rows={3}
-        maxLength={280}
+        maxLength={MAX_CHAR}
       />
-      <button
-        type="submit"
-        disabled={loading}
-        className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
-      >
-        {loading ? "Posting..." : "Post"}
-      </button>
+
+      <div className="flex items-center justify-between mt-2">
+        <span
+          className={`text-sm ${
+            content.length >= MAX_CHAR
+              ? "text-red-400"
+              : "text-gray-500 dark:text-gray-400"
+          }`}
+        >
+          {content.length}/{MAX_CHAR}
+        </span>
+
+        <CustomOutlineButton
+          text={loading ? "Posting..." : "Post"}
+          onClick={() => {}}
+          disabled={loading || content.length === 0}
+        />
+      </div>
     </form>
   );
 }

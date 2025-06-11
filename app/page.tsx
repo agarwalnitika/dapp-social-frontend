@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { isLoggedIn } from "./auth/utils/token";
+import { isLoggedIn } from "./helpers/token";
 import FeedPage from "./feed/page";
 
 export default function HomePage() {

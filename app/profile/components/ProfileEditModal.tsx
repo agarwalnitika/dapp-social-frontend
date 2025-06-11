@@ -1,6 +1,6 @@
 "use client";
 
-import { isValidHttpUrl } from "@/app/helper";
+import { isValidHttpUrl } from "@/app/helpers/helper";
 import { useState } from "react";
 
 export default function ProfileEditModal({ profile, onClose, onSave }: any) {

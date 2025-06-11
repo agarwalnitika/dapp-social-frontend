@@ -3,6 +3,7 @@
 
 import CreatePostForm from "@/app/components/CreatePost";
 import PostCard from "@/app/components/PostCard";
+import { API_BASE_URL } from "@/app/helpers/config";
 import React, { useEffect, useState } from "react";
 
 interface Post {
@@ -24,7 +25,7 @@ export default function FeedComponent() {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch("http://localhost:3001/posts");
+      const res = await fetch(`${API_BASE_URL}/posts`);
       const data = await res.json();
       setPosts(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -80,7 +81,7 @@ export default function FeedComponent() {
 
 export const handleLike = async (postId: number) => {
   try {
-    await fetch(`http://localhost:3001/posts/${postId}/like`, {
+    await fetch(`${API_BASE_URL}/posts/${postId}/like`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -95,7 +96,7 @@ export const handleLike = async (postId: number) => {
 
 export const handleComment = async (postId: number, text: string) => {
   try {
-    await fetch(`http://localhost:3001/posts/${postId}/comment`, {
+    await fetch(`${API_BASE_URL}/posts/${postId}/comment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

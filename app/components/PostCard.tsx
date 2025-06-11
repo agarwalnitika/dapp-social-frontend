@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
+import CustomOutlineButton from "./buttons/CustomButton";
 
 interface PostCardProps {
   // user: any;
@@ -37,7 +38,7 @@ export default function PostCard({
   };
 
   const cardContent = (
-    <div className="bg-white p-4 rounded-lg shadow mb-4">
+    <div className=" p-4 rounded-lg shadow mb-4">
       {/* <div className="flex items-center mb-2">
         <img
           src={user.profile_picture_url || "https://i.pravatar.cc/150?img=65"}
@@ -70,12 +71,7 @@ export default function PostCard({
           placeholder="Write a comment..."
           className="flex-1 border rounded px-2 py-1 text-sm"
         />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white text-sm px-3 py-1 rounded"
-        >
-          Send
-        </button>
+        <CustomOutlineButton onClick={() => {}} text="Send" />
       </form>
     </div>
   );

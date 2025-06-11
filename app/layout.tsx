@@ -1,4 +1,4 @@
-import WalletProvider from "./components/WalletProvider";
+import WalletProvider from "./providers/WalletProvider";
 import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./fontawesome";

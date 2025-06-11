@@ -6,6 +6,7 @@ import { sepolia } from "wagmi/chains";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
+import { UserProvider } from "./UserContext";
 
 const { connectors } = getDefaultWallets({
   appName: "dapp-social",
@@ -26,10 +27,12 @@ function WalletProvider({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={config}>
-        <RainbowKitProvider>{children}</RainbowKitProvider>
+        <RainbowKitProvider>
+          <UserProvider>{children}</UserProvider>
+        </RainbowKitProvider>
       </WagmiProvider>
     </QueryClientProvider>
   );
 }
 
-export default WalletProvider; // ✅ Must export as default
+export default WalletProvider;
