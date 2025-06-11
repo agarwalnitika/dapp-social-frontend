@@ -28,6 +28,7 @@ interface Comment {
   wallet_address: string;
   content: string;
   timestamp: string;
+  user: User;
 }
 
 export default function PostDetailsComponent() {

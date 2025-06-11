@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐦 Tweetlet - Web3 Social Platform
 
-## Getting Started
+A decentralized social media platform built on Ethereum, allowing users to post, like, and comment using their Web3 wallet.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Web3 Authentication**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  - Connect with MetaMask or any Web3 wallet
+  - Sign messages to verify ownership
+  - Secure wallet-based authentication
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Social Features**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+  - Create and share posts
+  - Like and comment on posts
+  - View user profiles
+  - Real-time post updates
+  - Dark mode support
 
-## Learn More
+- **User Profiles**
+  - Customizable usernames
+  - Profile pictures
+  - User bios
+  - Wallet address display
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  - Next.js 14 (App Router)
+  - React 19
+  - TypeScript
+  - TailwindCSS
+  - RainbowKit (Wallet Connection)
+  - Wagmi (Web3 Interactions)
 
-## Deploy on Vercel
+- **Backend**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  - Node.js
+  - Express
+  - PostgreSQL
+  - JWT Authentication
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Web3**
+  - Ethereum (Sepolia Testnet)
+  - MetaMask Integration
+  - Message Signing
+
+## 🏗️ Setup Instructions
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/yourusername/dapp-social-frontend.git
+   cd dapp-social-frontend
+   ```
+
+2. **Install Dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Environment Setup**
+   Create a `.env.local` file in the root directory:
+
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:3001
+   NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_project_id
+   ```
+
+4. **Start Development Server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. **Access the Application**
+   Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## 📱 How to Use
+
+1. **Connect Your Wallet**
+
+   - Click "Connect Wallet" button
+   - Select your preferred wallet (MetaMask recommended)
+   - Sign the connection request
+
+2. **Create a Profile**
+
+   - After connecting, set up your profile
+   - Add a username and profile picture
+   - Write a bio
+
+3. **Interact with Posts**
+
+   - Create new posts using the compose button
+   - Like posts by clicking the heart icon
+   - Comment on posts using the comment section
+   - View other users' profiles
+
+4. **Navigation**
+   - Home: View all posts
+   - Profile: Manage your profile and posts
+   - Explore: Discover new content
+
+## 🔒 Security Features
+
+- Wallet-based authentication
+- Message signing for verification
+- Secure API endpoints
+- Protected routes for authenticated users
+
+## 🎨 UI/UX Features
+
+- Responsive design
+- Dark mode
+- Modern, clean interface
+- Real-time updates
+- Loading states and error handling
+
+---
+
+Built with ❤️ by Nitika
