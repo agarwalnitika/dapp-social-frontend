@@ -52,7 +52,7 @@ A decentralized social media platform built on Ethereum, allowing users to post,
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/dapp-social-frontend.git
+   git clone https://github.com/agarwalnitika/dapp-social-frontend.git
    cd dapp-social-frontend
    ```
 
