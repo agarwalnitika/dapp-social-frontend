@@ -7,7 +7,7 @@ import { API_BASE_URL } from "@/app/helpers/config";
 import Spinner from "../components/Spinner";
 import { getToken, removeToken, setToken } from "../helpers/token";
 
-interface User {
+export interface User {
   walletAddress: string;
   username?: string;
   bio?: string;

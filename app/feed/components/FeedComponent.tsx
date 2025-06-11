@@ -4,7 +4,13 @@
 import CreatePostForm from "@/app/components/CreatePost";
 import PostCard from "@/app/components/PostCard";
 import { API_BASE_URL } from "@/app/helpers/config";
+import {
+  addCommentOnPost,
+  addLikeOnPost,
+  getAllPosts,
+} from "@/app/helpers/apiHelper";
 import React, { useEffect, useState } from "react";
+import { User, useUser } from "@/app/providers/UserContext";
 
 interface Post {
   id: number;
@@ -13,21 +19,20 @@ interface Post {
   timestamp: string;
   likeCount: number;
   commentCount: number;
-  user: {
-    username: string;
-    profile_picture_url: string;
-    wallet_address: string;
-  };
+  user: User;
 }
 
 export default function FeedComponent() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const { user } = useUser();
+
+  if (!user) return;
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/posts`);
-      const data = await res.json();
+      const data = await getAllPosts();
       setPosts(Array.isArray(data) ? data : []);
+      console.log(data);
     } catch (err) {
       console.error("Error fetching posts:", err);
       setPosts([]);
@@ -39,12 +44,12 @@ export default function FeedComponent() {
   }, []);
 
   const onLike = async (postId: number) => {
-    await handleLike(postId);
+    await addLikeOnPost(postId, user?.walletAddress);
     fetchPosts();
   };
 
   const onComment = async (postId: number, text: string) => {
-    await handleComment(postId, text);
+    await addCommentOnPost(postId, text, user?.walletAddress);
     fetchPosts();
   };
 
@@ -58,13 +63,12 @@ export default function FeedComponent() {
       ) : (
         posts.map((post) => (
           <PostCard
-            // user={{
-            //   username: post.user.username,
-            //   profile_picture_url: post.user.profile_picture_url,
-            //   wallet_address: post.user.wallet_address,
-            // }}
             key={post.id}
-            walletAddress={post.wallet_address}
+            user={{
+              username: post.user.username,
+              profilePicture: post.user.profilePicture,
+              walletAddress: post.wallet_address,
+            }}
             timestamp={post.timestamp}
             content={post.content}
             likeCount={post.likeCount}
@@ -72,40 +76,10 @@ export default function FeedComponent() {
             onLike={() => onLike(post.id)}
             onComment={(text) => onComment(post.id, text)}
             postId={post.id}
+            autoFocusComment={false}
           />
         ))
       )}
     </div>
   );
 }
-
-export const handleLike = async (postId: number) => {
-  try {
-    await fetch(`${API_BASE_URL}/posts/${postId}/like`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        postId,
-        wallet_address: "0x123", // temp hardcoded
-      }),
-    });
-  } catch (err) {
-    console.error("Like error:", err);
-  }
-};
-
-export const handleComment = async (postId: number, text: string) => {
-  try {
-    await fetch(`${API_BASE_URL}/posts/${postId}/comment`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        postId,
-        text,
-        wallet_address: "0x123", // temp hardcoded
-      }),
-    });
-  } catch (err) {
-    console.error("Comment error:", err);
-  }
-};

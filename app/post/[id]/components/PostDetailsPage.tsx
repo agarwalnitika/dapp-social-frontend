@@ -1,11 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import PostCard from "@/app/components/PostCard";
 import CommentList from "@/app/components/CommentsList";
-import { handleComment, handleLike } from "@/app/feed/components/FeedComponent";
+
 import { API_BASE_URL } from "@/app/helpers/config";
+import {
+  addCommentOnPost,
+  addLikeOnPost,
+  getPostById,
+} from "@/app/helpers/apiHelper";
+import { User, useUser } from "@/app/providers/UserContext";
 
 interface Post {
   id: number;
@@ -14,6 +20,7 @@ interface Post {
   timestamp: string;
   likeCount: number;
   commentCount: number;
+  user: User;
 }
 
 interface Comment {
@@ -28,16 +35,17 @@ export default function PostDetailsComponent() {
   const [post, setPost] = useState<Post | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useUser();
+  const searchParams = useSearchParams();
+  const focusComment = searchParams.get("focusComment") === "true";
+
+  if (!user) return;
 
   const fetchPostDetails = async () => {
     try {
-      const [postRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/posts/${id}`),
-      ]);
-
-      const postData = await postRes.json();
-
+      const postData = await getPostById(id as string);
       setPost(postData);
+      console.log(postData);
       setComments(Array.isArray(postData.comments) ? postData.comments : []);
     } catch (err) {
       console.error("Error loading post or comments", err);
@@ -51,12 +59,12 @@ export default function PostDetailsComponent() {
   }, [id]);
 
   const onLike = async (postId: number) => {
-    await handleLike(postId);
+    await addLikeOnPost(postId, user?.walletAddress);
     fetchPostDetails();
   };
 
   const onComment = async (postId: number, text: string) => {
-    await handleComment(postId, text);
+    await addCommentOnPost(postId, text, user?.walletAddress);
     fetchPostDetails();
   };
 
@@ -68,18 +76,19 @@ export default function PostDetailsComponent() {
     <div className="max-w-xl mx-auto mt-10 p-4">
       <h1 className="text-2xl font-bold mb-4">📝 Post Details</h1>
       <PostCard
-        // user={{
-        //   username: post.user.username,
-        //   profile_picture_url: post.user.profile_picture_url,
-        //   wallet_address: post.user.wallet_address,
-        // }}
-        walletAddress={post.wallet_address}
+        key={post.id}
+        user={{
+          username: post.user.username,
+          profilePicture: post.user.profilePicture,
+          walletAddress: post.wallet_address,
+        }}
         timestamp={post.timestamp}
         content={post.content}
         likeCount={post.likeCount}
         commentCount={post.commentCount}
         onComment={(text) => onComment(post.id, text)}
         onLike={() => onLike(post.id)}
+        autoFocusComment={focusComment}
       />
       <CommentList comments={comments} />
     </div>

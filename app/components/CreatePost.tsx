@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useUser } from "../providers/UserContext";
 import CustomOutlineButton from "./buttons/CustomButton";
-import { useAccount } from "wagmi";
-import { API_BASE_URL } from "../helpers/config";
+import { createPost } from "../helpers/apiHelper";
 
 export default function CreatePostForm({
   onPostCreated,
@@ -11,9 +11,11 @@ export default function CreatePostForm({
   onPostCreated: () => void;
 }) {
   const [content, setContent] = useState("");
-  const { address: walletAddress } = useAccount();
   const [loading, setLoading] = useState(false);
   const MAX_CHAR = 280;
+  const { user } = useUser();
+
+  if (!user) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,16 +23,7 @@ export default function CreatePostForm({
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/posts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ wallet_address: walletAddress, content }),
-      });
-
-      if (!res.ok) throw new Error("Failed to create post");
-
+      await createPost(user.walletAddress, content);
       setContent("");
       onPostCreated(); // refresh feed
     } catch (err) {
@@ -43,33 +36,43 @@ export default function CreatePostForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-6 p-4 border rounded-lg shadow-sm"
+      className="mb-6 p-4 rounded-xl shadow-sm bg-gray-900 text-white"
     >
-      <textarea
-        className="w-full p-2 border rounded-md resize-none"
-        placeholder="What's on your mind?"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        rows={3}
-        maxLength={MAX_CHAR}
-      />
-
-      <div className="flex items-center justify-between mt-2">
-        <span
-          className={`text-sm ${
-            content.length >= MAX_CHAR
-              ? "text-red-400"
-              : "text-gray-500 dark:text-gray-400"
-          }`}
-        >
-          {content.length}/{MAX_CHAR}
-        </span>
-
-        <CustomOutlineButton
-          text={loading ? "Posting..." : "Post"}
-          onClick={() => {}}
-          disabled={loading || content.length === 0}
+      <div className="flex gap-4">
+        {/* Profile Picture */}
+        <img
+          src={user?.profilePicture || "https://i.pravatar.cc/150?img=65"}
+          alt="Profile"
+          className="w-12 h-12 rounded-full object-cover"
         />
+
+        {/* Textarea and controls */}
+        <div className="flex-1">
+          <textarea
+            className="w-full p-3 bg-gray-800 text-white rounded-lg resize-none border border-gray-700 focus:outline-none focus:ring focus:ring-blue-500"
+            placeholder="What's happening?"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows={3}
+            maxLength={MAX_CHAR}
+          />
+
+          <div className="flex justify-between items-center mt-2">
+            <span
+              className={`text-xs ${
+                content.length >= MAX_CHAR ? "text-red-400" : "text-gray-400"
+              }`}
+            >
+              {content.length}/{MAX_CHAR}
+            </span>
+
+            <CustomOutlineButton
+              text={loading ? "Posting..." : "Post"}
+              onClick={() => {}}
+              disabled={loading || content.trim().length === 0}
+            />
+          </div>
+        </div>
       </div>
     </form>
   );
