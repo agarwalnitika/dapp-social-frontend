@@ -1,3 +1,7 @@
+/**
+ * Root page component
+ * Handles authentication state and redirects to appropriate pages
+ */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -7,7 +11,8 @@ import FeedPage from "./feed/page";
 
 export default function HomePage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true); // to prevent flicker
+  // Prevent flash of unauthenticated content
+  const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -20,6 +25,7 @@ export default function HomePage() {
     setLoading(false);
   }, [router]);
 
+  // Don't render anything while checking auth state
   if (loading || !authenticated) return null;
 
   return <FeedPage />;

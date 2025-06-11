@@ -1,4 +1,7 @@
-// tailwind.config.js
+/**
+ * Tailwind CSS configuration
+ * Defines custom theme settings, colors, and responsive design utilities
+ */
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",

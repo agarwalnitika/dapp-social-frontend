@@ -7,10 +7,14 @@ import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { UserProvider } from "./UserContext";
+import {
+  WALLET_CONNECT_APP_NAME,
+  WALLET_CONNECT_PROJECT_ID,
+} from "../helpers/config";
 
 const { connectors } = getDefaultWallets({
-  appName: "dapp-social",
-  projectId: "49e2d3ac70b04ce3a86faa165c0800cb",
+  appName: WALLET_CONNECT_APP_NAME,
+  projectId: WALLET_CONNECT_PROJECT_ID,
 });
 
 const config = createConfig({

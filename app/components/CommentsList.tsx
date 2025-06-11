@@ -1,9 +1,16 @@
+/**
+ * CommentsList component
+ * Displays a list of comments for a post with user information and timestamps
+ */
 "use client";
 
 import React from "react";
 import { formatTimestamp } from "../helpers/utils";
 import { User } from "../providers/UserContext";
 
+/**
+ * Represents a comment in the social feed
+ */
 interface Comment {
   id: number;
   wallet_address: string;

@@ -1,4 +1,12 @@
-// utils/timeFormatter.ts
+/**
+ * Utility functions for formatting and data manipulation
+ */
+
+/**
+ * Formats a timestamp into a human-readable relative time string
+ * @param dateString - ISO date string to format
+ * @returns Formatted time string (e.g., "5m", "2h", "3d", "Jun 10")
+ */
 export function formatTimestamp(dateString: string) {
   const date = new Date(dateString);
   const now = new Date();
